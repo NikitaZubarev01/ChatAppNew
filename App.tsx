@@ -1,22 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, } from 'react-native';
+import { Amplify } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
 
 import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
-export default function App() {
+Amplify.configure(awsconfig);
+
+function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+      <SafeAreaProvider style={styles.root}>
+        <Navigation/>
       </SafeAreaProvider>
     );
   }
 }
+
+const styles= StyleSheet.create({
+  
+  root:{
+    flex: 1,
+    backgroundColor: '#F9FBFC',
+  }
+})
+
+export default App;
+
+

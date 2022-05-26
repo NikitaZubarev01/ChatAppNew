@@ -1,23 +1,28 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { 
+  ColorSchemeName, 
+  Text, 
+  View, 
+  Image, 
+  useWindowDimensions, 
+  ActivityIndicator, 
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { Auth, Hub } from 'aws-amplify';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+
+import SignInScreen from '../src/screens/SignInScreen';
+import SignUpScreen from '../src/screens/SignUpScreen';
+import ComfirmEmailScreen from '../src/screens/ComfirmEmailScreen';
+import ForgotPasswordScreen from '../src/screens/ForgotPasswordScreen';
+import NewPasswordScreen from '../src/screens/NewPasswordScreen';
+
+import ChatRoomScreen from '../screens/ChatRoomScreen';
+import HomeScreen from '../screens/HomeScreen'
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,72 +41,136 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+   const [user,setUser] = useState<undefined | null>(undefined);
+  
+  const checkUser = async () => {
+     try {
+      const authUser = await Auth.currentAuthenticatedUser({bypassCache: true});
+      setUser(authUser);
+     } catch (e) {
+       setUser(null);
+     }
+  };
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  useEffect(() => {
+    const listener = (data) => {
+      if (data.payload.event === 'signIn' || data.payload.event === 'signOut') {
+        checkUser();
+      }
+    }
+    Hub.listen('auth', listener);
+    return () => Hub.remove('auth',listener);
+  }, [] )
+
+  if (user === undefined){
+    return(
+      <View style={{flex:1, justifyContent:'center', alignItems: 'center'}}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+    <Stack.Navigator screenOptions={{ headerTitleAlign: 'center' }}>
+      {user ? (
+        <>
+        <Stack.Screen 
+        name="Home" 
+        component={ HomeScreen }
+        options={{ 
+          headerTitle: props => <HomeHeader/>}}
+        />
+        <Stack.Screen 
+          name="ChatRoom" 
+          component={ChatRoomScreen}
+          options={{ 
+            headerTitle: ChatRoomHeader, 
+            headerBackTitleVisible: false,
+          }}
+        />
+      </>
+      ) : (
+        <>
+        <Stack.Screen 
+          name="SignIn" 
+          component={SignInScreen}
+          options={{ headerShown:false}} 
+        />
+        <Stack.Screen 
+          name="SignUp" 
+          component={SignUpScreen}
+          options={{ headerShown:false}} 
+        />
+        <Stack.Screen 
+          name="ComfirmEmail" 
+          component={ComfirmEmailScreen}
+          options={{ headerShown:false}}  
+        />
+        <Stack.Screen 
+          name="ForgotPassword" 
+          component={ForgotPasswordScreen}
+          options={{ headerShown:false}}  
+        />
+        <Stack.Screen 
+          name="NewPassword" 
+          component={NewPasswordScreen} 
+          options={{ headerShown:false}} 
+        />
+        </>
+        )}
     </Stack.Navigator>
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const HomeHeader = (props) => {
 
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const{width} = useWindowDimensions();
 
-  return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+  return(
+    <View 
+      style={{
+        flexDirection:'row', 
+        justifyContent:'space-between',
+        width, 
+        right: 5,
+        alignItems:'center'}}>
+      <Image 
+        source={{uri: 'https://sun9-23.userapi.com/s/v1/ig2/vNrqVq2PwEsuhrMbODZn-RH5LbmG226bNumzeXSwzNPoRmBH9WtZ9u67kJfB6nF-AsrgcZwXC8WUhGUDFe9VDhbi.jpg?size=1437x2160&quality=96&type=album' }}
+        style={{width:35,height:35,borderRadius:30 }}
       />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
+      <Text style={{flex: 1, textAlign:'center', marginLeft: 40,fontWeight:'bold'}}>Home</Text>
+      <View style={{flexDirection:'row', paddingEnd:15}}>
+        <Feather name="camera" size={24} color="black" style={{marginHorizontal: 10,}} />
+        <Feather name="edit-2" size={24} color="black" style={{marginHorizontal: 10,}} />
+      </View>
+    </View>
+  )
+} 
+const ChatRoomHeader = (props) => {
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+  const{width} = useWindowDimensions();
+
+  return(
+    <View 
+      style={{
+        flexDirection:'row', 
+        justifyContent:'space-between',
+        width : width - 30,
+        right:30,
+        padding: 10,
+        alignItems:'center'}}>
+      <Image 
+        source={{uri: 'https://sun9-23.userapi.com/s/v1/ig2/vNrqVq2PwEsuhrMbODZn-RH5LbmG226bNumzeXSwzNPoRmBH9WtZ9u67kJfB6nF-AsrgcZwXC8WUhGUDFe9VDhbi.jpg?size=1437x2160&quality=96&type=album' }}
+        style={{width:35,height:35,borderRadius:30 }}
+      />
+      <Text style={{flex: 1, marginLeft: 10,fontWeight:'bold'}}>{props.children}</Text>
+      <View style={{flexDirection:'row', paddingEnd:10}}>
+        <Feather name="camera" size={24} color="black" style={{marginHorizontal: 10,}} />
+        <Feather name="edit-2" size={24} color="black" style={{marginHorizontal: 10,}} />
+      </View>
+    </View>
+  )
+} 
