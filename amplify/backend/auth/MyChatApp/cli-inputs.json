@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "mychatc79f4528",
+    "resourceNameTruncated": "mychat848fd60d",
     "userPoolName": "MyChatApp",
     "autoVerifiedAttributes": [
       "email"
@@ -28,9 +28,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "MyChatc79f4528_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "MyChat848fd60d_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "c79f4528",
+    "sharedId": "848fd60d",
     "resourceName": "MyChatApp",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
@@ -41,6 +41,41 @@
     "thirdPartyAuth": false,
     "authProviders": [],
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true
+    "useEnabledMfas": true,
+    "authRoleArn": {
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
+    },
+    "unauthRoleArn": {
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
+    },
+    "breakCircularDependency": true,
+    "dependsOn": [
+      {
+        "category": "function",
+        "resourceName": "MyChatAppPostConfirmation",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      }
+    ],
+    "triggers": {
+      "PostConfirmation": [
+        "custom"
+      ]
+    },
+    "hostedUI": false,
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"MyChatAppPostConfirmation\"\n  }\n]",
+    "permissions": []
   }
 }
