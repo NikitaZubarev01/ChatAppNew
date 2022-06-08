@@ -35,7 +35,6 @@ const SignUpScreen = () => {
     }catch (e) {
       Alert.alert('Oops',e.message);
     }
-
   }
 
   const onForgotPasswordPress= () => {
@@ -50,25 +49,25 @@ const SignUpScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Text style={styles.title}>Create an account</Text>
+        <Text style={styles.title}>Создание аккаунта</Text>
           <CustomInput 
             name="name"
             control={control}
-            placeholder="Name" 
+            placeholder="Имя" 
             rules={{
-              required: 'Name is required',
-              minLength:{value:4, message:'Name should be minimum 4 characters'},
-              maxLength:{value:24, message:'Name should be max 12 characters'}
+              required: 'Требуется Имя',
+              minLength:{value:4, message:'Поле Имя должно содержать минимум 4 символа'},
+              maxLength:{value:24, message:'Поле Имя может содержать максимум 12 символов'}
             }}
           />
           <CustomInput 
             name="username"
             control={control}
-            placeholder="Username" 
+            placeholder="Имя пользователя" 
             rules={{
-              required: 'Username is required',
-              minLength:{value:4, message:'Username should be minimum 4 characters'},
-              maxLength:{value:12, message:'Username should be max 12 characters'}
+              required: 'Требуется Имя пользователя',
+              minLength:{value:4, message:'Поле Имя пользователя должно содержать минимум 4 символа'},
+              maxLength:{value:12, message:'Поле Имя пользователя может содержать максимум 12 символов'}
             }}
           />
           <CustomInput 
@@ -76,37 +75,37 @@ const SignUpScreen = () => {
             control={control}
             placeholder="Email"
             rules={{
-              required: 'Email is required',
-              pattern: {value: EMAIL_REGEX, message:'Email is invalid'},
+              required: 'Требуется Email',
+              pattern: {value: EMAIL_REGEX, message:'Ваш Email не действителен'},
             }}
           />
           <CustomInput 
             name="password"
             control={control}
-            placeholder="Password" 
+            placeholder="Пароль" 
             secureTextEntry
             rules={{
-              required: 'Password is required', 
-              minLength:{value:6, message:'Password should be minimum 6 characters '}
+              required: 'Требуется пароль', 
+              minLength:{value:6, message:'Пароль должен содержать минимум 6 символов '}
             }}
           />
           <CustomInput 
             name="repeat-password"
             control={control}
-            placeholder="Repeat Password" 
+            placeholder="Повторите пароль" 
             secureTextEntry
             rules={{
               validate: value => 
-              value == pwd || 'Password do not match',
+              value == pwd || 'Пароль не совпадает',
             }}
           />
 
           <CustomButton
-            text="Register"
+            text="Зарегистрировать"
             onPress={handleSubmit(onRegisterPressed)}
           />
           <CustomButton
-            text="Have an account? Sign in"
+            text="У вас уже есть аккаунт? Войти"
             onPress={onSingUpPress}
             type="TERTIARY"
           />  

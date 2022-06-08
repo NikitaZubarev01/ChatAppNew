@@ -25,6 +25,7 @@ import NewPasswordScreen from '../src/screens/NewPasswordScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import HomeScreen from '../screens/HomeScreen';
 import UsersScreen from '../screens/UsersScreen';
+import ChatRoomHeader from './ChatRoomHeader';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -43,7 +44,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-   const [user,setUser] = useState<undefined | null>(undefined);
+  const [user,setUser] = useState<undefined | null>(undefined);
   
   const checkUser = async () => {
      try {
@@ -89,16 +90,16 @@ function RootNavigator() {
           name="UsersScreen" 
           component={UsersScreen}
           options={{
-            title: "Users",
+            title: "Пользователи",
           }}
         />
         <Stack.Screen 
           name="ChatRoom" 
           component={ChatRoomScreen}
-          options={{ 
-            headerTitle: ChatRoomHeader, 
+          options={({ route }) => ({ 
+            headerTitle: () => <ChatRoomHeader id={ route.params?.id}/>, 
             headerBackTitleVisible: false,
-          }}
+          })}
         />
       </>
       ) : (
@@ -151,7 +152,7 @@ const HomeHeader = (props) => {
         source={{uri: 'https://sun9-23.userapi.com/s/v1/ig2/vNrqVq2PwEsuhrMbODZn-RH5LbmG226bNumzeXSwzNPoRmBH9WtZ9u67kJfB6nF-AsrgcZwXC8WUhGUDFe9VDhbi.jpg?size=1437x2160&quality=96&type=album' }}
         style={{width:35,height:35,borderRadius:30 }}
       />
-      <Text style={{flex: 1, textAlign:'center', marginLeft: 40,fontWeight:'bold'}}>Home</Text>
+      <Text style={{flex: 1, textAlign:'center', marginLeft: 40,fontWeight:'bold'}}>Главная</Text>
       <View style={{flexDirection:'row', paddingEnd:15}}>
         <Feather name="camera" size={24} color="black" style={{marginHorizontal: 10,}} />
         <Pressable onPress={() => navigation.navigate('UsersScreen')}>
@@ -161,28 +162,4 @@ const HomeHeader = (props) => {
     </View>
   )
 } 
-const ChatRoomHeader = (props) => {
 
-  const{width} = useWindowDimensions();
-
-  return(
-    <View 
-      style={{
-        flexDirection:'row', 
-        justifyContent:'space-between',
-        width : width - 30,
-        right:30,
-        padding: 10,
-        alignItems:'center'}}>
-      <Image 
-        source={{uri: 'https://sun9-23.userapi.com/s/v1/ig2/vNrqVq2PwEsuhrMbODZn-RH5LbmG226bNumzeXSwzNPoRmBH9WtZ9u67kJfB6nF-AsrgcZwXC8WUhGUDFe9VDhbi.jpg?size=1437x2160&quality=96&type=album' }}
-        style={{width:35,height:35,borderRadius:30 }}
-      />
-      <Text style={{flex: 1, marginLeft: 10,fontWeight:'bold'}}>{props.children}</Text>
-      <View style={{flexDirection:'row', paddingEnd:10}}>
-        <Feather name="camera" size={24} color="black" style={{marginHorizontal: 10,}} />
-        <Feather name="edit-2" size={24} color="black" style={{marginHorizontal: 10,}} />
-      </View>
-    </View>
-  )
-} 

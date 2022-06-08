@@ -37,25 +37,25 @@ const ForgotPasswordScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Text style={styles.title}>Reset your password</Text>
+        <Text style={styles.title}>Сбросить пароль</Text>
 
         <CustomInput 
           name="username"
           control={control}
-          placeholder="Username" 
+          placeholder="Имя пользователя" 
           rules={{
-            required: 'Username is required',
-            minLength:{value:4, message:'Username should be minimum 4 characters'},
-            maxLength:{value:12, message:'Username should be max 12 characters'}
+            required: 'Требуется имя пользователя',
+            minLength:{value:4, message:'Поле Имя пользователя должно содержать минимум 4 символа'},
+            maxLength:{value:12, message:'Поле Имя пользователя может содержать максимум 12 символов'}
            }}
         />
 
         <CustomButton
-          text="Send"
+          text="Отправить"
           onPress={handleSubmit(onSendPressed)}
         />
         <CustomButton
-          text="Back to Sing in"
+          text="Вернуться ко входу"
           onPress={onSingInPress}
           type="TERTIARY"
         />

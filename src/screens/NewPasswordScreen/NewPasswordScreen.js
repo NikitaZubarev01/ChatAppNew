@@ -40,45 +40,45 @@ const NewPasswordScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Text style={styles.title}>Reset your password</Text> 
+        <Text style={styles.title}>Сбросить пароль</Text> 
           <CustomInput 
             name="username"
             control={control}
-            placeholder="Username" 
+            placeholder="Имя пользователя" 
             rules={{
-              required:'Code is required'
+              required:'Требуется имя пользователя'
             }}
           />
           <CustomInput 
             name="code"
             control={control}
-            placeholder="Code" 
+            placeholder="Код подтверждения" 
             rules={{
-              required:'Code is required'
+              required:'Требуется код подтверждения'
             }}
           />
           <CustomInput 
             name="password"
             control={control}
             secureTextEntry
-            placeholder="Enter your new password"
+            placeholder="Введите ваш новый пароль"
             rules={{
-              required: 'Password is required', 
-              minLength:{value:6, message:'Password should be minimum 6 characters '}
+              required: 'Требуется пароль', 
+              minLength:{value:6, message:'Пароль должен состоять минимум из 6 символов'}
             }}
           />
 
           <CustomButton
-            text="Submit"
+            text="Отправить"
             onPress={handleSubmit(onSubmitPressed)}
           />
           <CustomButton
-            text="Resend code"
+            text="Отправить код еще раз"
             onPress={onResendPress}
             type="SECONDARY"
           />
           <CustomButton
-            text="Back to Sing in"
+            text="Вернуться ко входу"
             onPress={onSingInPress}
             type="TERTIARY"
           />

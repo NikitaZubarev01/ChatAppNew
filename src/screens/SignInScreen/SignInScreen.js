@@ -60,34 +60,34 @@ const SignInScreen = () => {
 
             <CustomInput
               name="username"
-              placeholder="Username"
+              placeholder="Имя пользователя"
               control={control}
-              rules={{required: 'Username is required'}}
+              rules={{required: 'Требуется имя пользователя'}}
              />
             <CustomInput 
               name="password"
-              placeholder="Password"
+              placeholder="Пароль"
               secureTextEntry
               control={control}
               rules={{
-                  required: 'Password is required', 
+                  required: 'Требуестся пароль', 
                   minLength:{
                     value:6, 
-                    message:'Password should be minimum 6 characters '
+                    message:'Пароль состоит минимум из 6 символов'
                   }
                 }}
             /> 
             <CustomButton
-                text={loading ? 'Loading...' : 'Sing in' }
+                text={loading ? 'Загрузка...' : 'Вход' }
                 onPress={handleSubmit(onSingInPressed)}
             />
             <CustomButton
-                text="Forgot password?"
+                text="Забыли пароль ?"
                 onPress={onForgotPasswordPress}
                 type="TERTIARY"
             />  
              <CustomButton
-                text="Dont have an account? Create one"
+                text="У вас нет аккаунта ? Создать аккаунт"
                 onPress={onSingUpPress}
                 type="TERTIARY"
             />  

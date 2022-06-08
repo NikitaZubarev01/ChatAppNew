@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DataStore, Auth } from 'aws-amplify';
-import { ChatRoomUser, User } from '../../src/models';
+import { ChatRoomUser, User, Message } from '../../src/models';
 import styles from './styles';
 
 export default function ChatRoomItem({ chatRoom }) {
-    const [users, setUsers] = useState<User[]>([]); //all users in this chat room
-    const [user, setUser ] = useState<User|null>(null); //display user 
+    //const [users, setUsers] = useState<User[]>([]); //all users in this chat room
+    const [user, setUser ] = useState<User|null>(null); //display user
+    const [lastMessage, setLastMessage] = useState<Message|undefined>();
 
     const navigation = useNavigation();
+    console.log(chatRoom);
 
     useEffect(() =>{
         const fetchUsers = async () => {
@@ -17,13 +19,20 @@ export default function ChatRoomItem({ chatRoom }) {
                 .filter(chatRoomUser => chatRoomUser.chatRoom.id === chatRoom.id)
                 .map(chatRoomUser => chatRoomUser.user);
 
-                setUsers(fetchedUsers);
+               // setUsers(fetchedUsers);
 
                 const authUser = await Auth.currentAuthenticatedUser(); 
                 setUser(fetchedUsers.find(user => user.id !== authUser.attributes.sub) || null );
         };
         fetchUsers();
     }, []);
+
+    useEffect(() => {
+        if (!chatRoom.chatRoomLastMessageId) { 
+            return 
+        }
+        DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(setLastMessage);
+      }, [])
 
     const onPress = () => {
         navigation.navigate('ChatRoom', { id: chatRoom.id });
@@ -42,9 +51,9 @@ export default function ChatRoomItem({ chatRoom }) {
             <View style={styles.rightContainer}>
                 <View style={styles.row}>
                     <Text style={styles.name}>{user.name}</Text>
-                    <Text style={styles.text}>{chatRoom.lastMessage?.createdAt}</Text>
+                    <Text style={styles.text}>{lastMessage?.createdAt}</Text>
                 </View>
-                <Text numberOfLines={1} style={styles.text}> {chatRoom.lastMessage?.content} </Text>
+                <Text numberOfLines={1} style={styles.text}>{lastMessage?.content}</Text>
             </View>
       </Pressable>
     );

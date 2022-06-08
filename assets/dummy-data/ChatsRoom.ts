@@ -2,16 +2,16 @@ export default [{
     id: '1',
     users: [{
       id: 'u1',
-      name: 'Vadim',
-      imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.jpg',
+      name: 'Nikita',
+      imageUri: 'https://sun4.userapi.com/sun4-11/s/v1/ig2/vNrqVq2PwEsuhrMbODZn-RH5LbmG226bNumzeXSwzNPoRmBH9WtZ9u67kJfB6nF-AsrgcZwXC8WUhGUDFe9VDhbi.jpg?size=1437x2160&quality=96&type=album',
     }, {
       id: 'u2',
       name: 'Elon Musk',
-      imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png',
+      imageUri: 'https://www.politico.eu/cdn-cgi/image/width=965,height=710,fit=crop,quality=80,onerror=redirect,format=auto/wp-content/uploads/2022/02/27/GettyImages-1234651136.jpg',
     }],
     lastMessage: {
       id: 'm1',
-      content: 'btw, SpaceX is interested in buying notJust.dev!',
+      content: 'Hello!',
       createdAt: '2020-10-03T14:48:00.000Z',
     },
     newMessages: 4,

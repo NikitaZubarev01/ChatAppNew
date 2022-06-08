@@ -46,36 +46,36 @@ const ConfirmEmailScreen = () => {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
-            <Text style={styles.title}>Confirm your email</Text>
+            <Text style={styles.title}>Подтверждение Почты</Text>
 
             <CustomInput 
               name="username"
               control={control}
-              placeholder="Username" 
+              placeholder="Имя пользователя" 
               rules={{
-                  required:'Username is required'
+                  required:'Требуестся имя пользователя'
               }}
             />
             <CustomInput 
               name="code"
               control={control}
-              placeholder="Enter your confimation code" 
+              placeholder="Введите ваш код подтверждения" 
               rules={{
-                  required:'Confirmation code is required'
+                  required:'Требуется код подтверждения'
               }}
             />
 
             <CustomButton
-                text="Confirm"
+                text="Подтвердить"
                 onPress={handleSubmit(onConfirmPressed)}
             />
             <CustomButton
-                text="Resend code"
+                text="Отправить код ещё раз"
                 onPress={onResendPress}
                 type="SECONDARY"
             />
             <CustomButton
-                text="Back to Sing in"
+                text="Вернуться к входу в аккаунт"
                 onPress={onSingInPress}
                 type="TERTIARY"
             />
