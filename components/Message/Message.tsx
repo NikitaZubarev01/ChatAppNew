@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { DataStore, Auth } from "aws-amplify";
+import { View, Text, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
+import { DataStore, Auth,  } from "aws-amplify";
 import { User } from "../../src/models";
+import { S3Image } from "aws-amplify-react-native";
 
 
 const blue = '#3777f0';
 const grey = 'lightgray'
 
-const myID = 'u1';
-
-
 const Message = ({ message }) => {
     const [user, setUser] = useState<User|undefined>();
     const [isMe, setIsMe] = useState<boolean>(false);
+
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         DataStore.query(User, message.userID).then(setUser); 
@@ -35,8 +35,25 @@ const Message = ({ message }) => {
 
     return(
         <View style={[
-            styles.container, isMe ? styles.rightcontainer : styles.leftcontainer]}>
-            <Text style={{color: isMe ? 'black' : 'white'}}>{message.content}</Text>
+            styles.container, 
+            isMe ? styles.rightcontainer : styles.leftcontainer
+            ]}
+        >
+            {message.image && (
+                <View style={{ marginBottom: message.content ? 10 : 0 }}>
+                    <S3Image 
+                        imgKey={message.image} 
+                        style={{ width: width * 0.7 , aspectRatio: 4 / 3 }}
+                        resizeMode="contain"
+                    />    
+                </View>
+            
+            )}
+            {!!message.content && (
+                <Text style={{color: isMe ? 'black' : 'white'}}>
+                    {message.content}
+                </Text>
+            )}
         </View>
     )
 }

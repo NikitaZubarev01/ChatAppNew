@@ -1,0 +1,13 @@
+{
+  "resourceName": "s32ebc437b",
+  "policyUUID": "2ebc437b",
+  "bucketName": "mychatapp4576be7080b648908ac82913b32b13ff",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
