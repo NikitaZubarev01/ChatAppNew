@@ -9,79 +9,79 @@ import Message from "../components/Message";
 import MessageInput from "../components/MessageInput";
 
 export default function ChatRoomScreen() {
-    const [messages, setMessages] = useState<MessageModel[]>([]);
-    const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null)
+	const [messages, setMessages] = useState<MessageModel[]>([]);
+	const [chatRoom, setChatRoom] = useState<ChatRoom | null>(null)
 
-    const route = useRoute();
-    const navigation = useNavigation();
+	const route = useRoute();
+	const navigation = useNavigation();
 
-    useEffect(() => {
-        fetchChatRoom();
-    }, []);
+	useEffect(() => {
+		fetchChatRoom();
+	}, []);
 
-    useEffect(() => {
-        fetchMessages();
-    }, [chatRoom]);
+	useEffect(() => {
+		fetchMessages();
+	}, [chatRoom]);
 
-    useEffect(() => {
-        const subscription = DataStore.observe(MessageModel).subscribe(msg => {
-            console.log(msg.model, msg.opType, msg.element);
-            if (msg.model === MessageModel && msg.opType === 'INSERT') {
-                setMessages(existingMessage => [msg.element, ...existingMessage])
-            }
-        });
+	useEffect(() => {
+		const subscription = DataStore.observe(MessageModel).subscribe(msg => {
+			console.log(msg.model, msg.opType, msg.element);
+			if (msg.model === MessageModel && msg.opType === 'INSERT') {
+				setMessages(existingMessage => [msg.element, ...existingMessage])
+			}
+		});
 
-        return () => subscription.unsubscribe();
-    }, []);
+		return () => subscription.unsubscribe();
+	}, []);
 
-    const fetchChatRoom = async () => {
-        if (!route.params?.id) {
-            console.warn("No chatroom id provided");
-            return;
-        }
-        const chatRoom = await DataStore.query(ChatRoom, route.params.id);
-        if (!chatRoom) {
-            console.error("Couldn't find a chat room with this id");
-        } else {
-            setChatRoom(chatRoom);
-        }
-    };
+	const fetchChatRoom = async () => {
+		if (!route.params?.id) {
+			console.warn("No chatroom id provided");
+			return;
+		}
+		const chatRoom = await DataStore.query(ChatRoom, route.params.id);
+		if (!chatRoom) {
+			console.error("Couldn't find a chat room with this id");
+		} else {
+			setChatRoom(chatRoom);
+		}
+	};
 
-    const fetchMessages = async () => {
-        if (!chatRoom) {
-            return;
-        }
-        const fetchedMessages = await DataStore.query(MessageModel,
-            message => message.chatroomID("eq", chatRoom?.id),
-            {
-                sort: message => message.createdAt(SortDirection.DESCENDING)
-            }
-        );
-        console.log(fetchedMessages);
-        setMessages(fetchedMessages);
-    };
+	const fetchMessages = async () => {
+		if (!chatRoom) {
+			return;
+		}
+		const fetchedMessages = await DataStore.query(MessageModel,
+			message => message.chatroomID("eq", chatRoom?.id),
+			{
+				sort: message => message.createdAt(SortDirection.DESCENDING)
+			}
+		);
+		console.log(fetchedMessages);
+		setMessages(fetchedMessages);
+	};
 
 
-    if (!chatRoom) {
-        return <ActivityIndicator />
-    }
+	if (!chatRoom) {
+		return <ActivityIndicator />
+	}
 
-    return (
-        <View style={styles.page}>
-            <FlatList
-                data={messages}
-                renderItem={({ item }) => <Message message={item} />}
-                inverted
-            />
-            <MessageInput chatRoom={chatRoom} />
-        </View>
-    );
+	return (
+		<View style={styles.page}>
+			<FlatList
+				data={messages}
+				renderItem={({ item }) => <Message message={item} />}
+				inverted
+			/>
+			<MessageInput chatRoom={chatRoom} />
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({
-    page: {
-        backgroundColor: 'white',
-        flex: 1,
-    },
+	page: {
+		backgroundColor: 'white',
+		flex: 1,
+	},
 
 })

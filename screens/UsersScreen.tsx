@@ -5,10 +5,7 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Text,
-  Pressable
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { DataStore } from 'aws-amplify';
 import { User } from '../src/models';
 

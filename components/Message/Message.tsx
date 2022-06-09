@@ -4,6 +4,7 @@ import { DataStore, Auth, Storage } from "aws-amplify";
 import { User } from "../../src/models";
 import { S3Image } from "aws-amplify-react-native";
 import AudioPlayer from "../AudioPlayer";
+import styles from "./styles";
 
 
 const blue = '#3777f0';
@@ -67,24 +68,5 @@ const Message = ({ message }) => {
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		padding: 10,
-		margin: 10,
-		borderRadius: 10,
-		Maxwidth: '75%',
-	},
-	leftcontainer: {
-		backgroundColor: '#3777f0',
-		marginLeft: 10,
-		marginRight: 'auto',
-	},
-	rightcontainer: {
-		backgroundColor: 'lightgray',
-		marginLeft: 'auto',
-		marginRight: 10,
-	},
-});
 
 export default Message;
