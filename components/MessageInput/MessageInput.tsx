@@ -81,11 +81,11 @@ const MessageInput = ({ chatRoom }) => {
 	const onPress = () => {
 		if (image) {
 			sendImage();
-		}
-		else if (soundURI) {
-			sendAudio();
 		} else if (message) {
 			sendMessage();
+		} else if (soundURI) {
+			sendMessage();
+			sendAudio();
 		} else {
 			onPlusClicked();
 		}
@@ -134,7 +134,7 @@ const MessageInput = ({ chatRoom }) => {
 		if (!image) {
 			return;
 		}
-		const blob = await getImageBlob(image);
+		const blob = await getBlob(image);
 		const { key } = await Storage.put(`${uuidv4()}.png`, blob, { progressCallback });
 
 		//send message
