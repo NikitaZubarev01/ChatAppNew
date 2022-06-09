@@ -10,99 +10,99 @@ import CustomButton from '../../components/CustomButton';
 
 
 const ConfirmEmailScreen = () => {
-    const route = useRoute();
-    const {control, handleSubmit, watch} = useForm({
-        defaultValues: {username: route?.params?.username},
-    });
+	const route = useRoute();
+	const { control, handleSubmit, watch } = useForm({
+		defaultValues: { username: route?.params?.username },
+	});
 
-    const username = watch('username');
+	const username = watch('username');
 
-    const navigation = useNavigation();
-    
-    const onConfirmPressed = async (data) => {
-        try{
-          await Auth.confirmSignUp(data.username, data.code);
-          navigation.navigate('SignIn');
-        } catch (e) {
-            Alert.alert("Oops", e.message);
-        }
-    }
+	const navigation = useNavigation();
 
-    const onResendPress = async (data) => {
-        try{
-            await Auth.resendSignUp(data.username);
-            Alert.alert('Success','Code was resent to your email');
-        } catch (e) {
-            Alert.alert("Oops", e.message);
-        }
-    }
+	const onConfirmPressed = async (data) => {
+		try {
+			await Auth.confirmSignUp(data.username, data.code);
+			navigation.navigate('SignIn');
+		} catch (e) {
+			Alert.alert("Oops", e.message);
+		}
+	}
 
-    const onSingInPress = () => {
-      console.warn("onSingInPress");
+	const onResendPress = async (data) => {
+		try {
+			await Auth.resendSignUp(data.username);
+			Alert.alert('Success', 'Code was resent to your email');
+		} catch (e) {
+			Alert.alert("Oops", e.message);
+		}
+	}
 
-      navigation.navigate('SignIn');
-    }
+	const onSingInPress = () => {
+		console.warn("onSingInPress");
 
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.root}>
-            <Text style={styles.title}>Подтверждение Почты</Text>
+		navigation.navigate('SignIn');
+	}
 
-            <CustomInput 
-              name="username"
-              control={control}
-              placeholder="Имя пользователя" 
-              rules={{
-                  required:'Требуестся имя пользователя'
-              }}
-            />
-            <CustomInput 
-              name="code"
-              control={control}
-              placeholder="Введите ваш код подтверждения" 
-              rules={{
-                  required:'Требуется код подтверждения'
-              }}
-            />
+	return (
+		<ScrollView showsVerticalScrollIndicator={false}>
+			<View style={styles.root}>
+				<Text style={styles.title}>Подтверждение Почты</Text>
 
-            <CustomButton
-                text="Подтвердить"
-                onPress={handleSubmit(onConfirmPressed)}
-            />
-            <CustomButton
-                text="Отправить код ещё раз"
-                onPress={onResendPress}
-                type="SECONDARY"
-            />
-            <CustomButton
-                text="Вернуться к входу в аккаунт"
-                onPress={onSingInPress}
-                type="TERTIARY"
-            />
+				<CustomInput
+					name="username"
+					control={control}
+					placeholder="Имя пользователя"
+					rules={{
+						required: 'Требуестся имя пользователя'
+					}}
+				/>
+				<CustomInput
+					name="code"
+					control={control}
+					placeholder="Введите ваш код подтверждения"
+					rules={{
+						required: 'Требуется код подтверждения'
+					}}
+				/>
 
-        </View>
-      </ScrollView>
-    )
+				<CustomButton
+					text="Подтвердить"
+					onPress={handleSubmit(onConfirmPressed)}
+				/>
+				<CustomButton
+					text="Отправить код ещё раз"
+					onPress={onResendPress}
+					type="SECONDARY"
+				/>
+				<CustomButton
+					text="Вернуться к входу в аккаунт"
+					onPress={onSingInPress}
+					type="TERTIARY"
+				/>
+
+			</View>
+		</ScrollView>
+	)
 }
 
 const styles = StyleSheet.create({
-    root: {
-        alignItems:"center",
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        padding: 20,
-    },
+	root: {
+		alignItems: "center",
+		paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+		padding: 20,
+	},
 
-    logo: {
-        width: '70%',
-        maxWidth: 300,
-        maxHeight: 300,
-    },
-    title:{
-        fontSize: 24,
-        fontWeight:'bold',
-        color:'#051C60',
-        margin: 10,
-    },
+	logo: {
+		width: '70%',
+		maxWidth: 300,
+		maxHeight: 300,
+	},
+	title: {
+		fontSize: 24,
+		fontWeight: 'bold',
+		color: '#051C60',
+		margin: 10,
+	},
 })
 
 export default ConfirmEmailScreen

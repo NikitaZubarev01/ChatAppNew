@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import { 
-  Platform, 
-  StatusBar, 
-  Text, 
-  View, 
-  StyleSheet, 
+import React, { useState } from 'react';
+import {
+  Platform,
+  StatusBar,
+  Text,
+  View,
+  StyleSheet,
   ScrollView,
   Alert,
 } from 'react-native';
@@ -16,12 +16,12 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 
 const ForgotPasswordScreen = () => {
-  const {control, handleSubmit, } = useForm();
+  const { control, handleSubmit, } = useForm();
 
   const navigation = useNavigation();
-    
+
   const onSendPressed = async data => {
-    try{
+    try {
       await Auth.forgotPassword(data.username);
       navigation.navigate('NewPassword');
     } catch (e) {
@@ -39,15 +39,15 @@ const ForgotPasswordScreen = () => {
       <View style={styles.root}>
         <Text style={styles.title}>Сбросить пароль</Text>
 
-        <CustomInput 
+        <CustomInput
           name="username"
           control={control}
-          placeholder="Имя пользователя" 
+          placeholder="Имя пользователя"
           rules={{
             required: 'Требуется имя пользователя',
-            minLength:{value:4, message:'Поле Имя пользователя должно содержать минимум 4 символа'},
-            maxLength:{value:12, message:'Поле Имя пользователя может содержать максимум 12 символов'}
-           }}
+            minLength: { value: 4, message: 'Поле Имя пользователя должно содержать минимум 4 символа' },
+            maxLength: { value: 12, message: 'Поле Имя пользователя может содержать максимум 12 символов' }
+          }}
         />
 
         <CustomButton
@@ -66,7 +66,7 @@ const ForgotPasswordScreen = () => {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems:"center",
+    alignItems: "center",
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     padding: 20,
   },
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 300,
   },
-  title:{
+  title: {
     fontSize: 24,
-    fontWeight:'bold',
-    color:'#051C60',
+    fontWeight: 'bold',
+    color: '#051C60',
     margin: 10,
   },
 })

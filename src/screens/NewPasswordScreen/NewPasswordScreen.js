@@ -11,16 +11,16 @@ import CustomButton from '../../components/CustomButton';
 
 const NewPasswordScreen = () => {
   // const route = useRoute();
-   const {control, handleSubmit} = useForm();
+  const { control, handleSubmit } = useForm();
   //   defaultValues: {username: route?.params?.username},
   // });
 
   //const username = watch('username');
 
   const navigation = useNavigation();
-    
+
   const onSubmitPressed = async data => {
-    try{
+    try {
       await Auth.forgotPasswordSubmit(data.username, data.code, data.password);
       navigation.navigate('SingIn');
     } catch (e) {
@@ -40,48 +40,48 @@ const NewPasswordScreen = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Text style={styles.title}>Сбросить пароль</Text> 
-          <CustomInput 
-            name="username"
-            control={control}
-            placeholder="Имя пользователя" 
-            rules={{
-              required:'Требуется имя пользователя'
-            }}
-          />
-          <CustomInput 
-            name="code"
-            control={control}
-            placeholder="Код подтверждения" 
-            rules={{
-              required:'Требуется код подтверждения'
-            }}
-          />
-          <CustomInput 
-            name="password"
-            control={control}
-            secureTextEntry
-            placeholder="Введите ваш новый пароль"
-            rules={{
-              required: 'Требуется пароль', 
-              minLength:{value:6, message:'Пароль должен состоять минимум из 6 символов'}
-            }}
-          />
+        <Text style={styles.title}>Сбросить пароль</Text>
+        <CustomInput
+          name="username"
+          control={control}
+          placeholder="Имя пользователя"
+          rules={{
+            required: 'Требуется имя пользователя'
+          }}
+        />
+        <CustomInput
+          name="code"
+          control={control}
+          placeholder="Код подтверждения"
+          rules={{
+            required: 'Требуется код подтверждения'
+          }}
+        />
+        <CustomInput
+          name="password"
+          control={control}
+          secureTextEntry
+          placeholder="Введите ваш новый пароль"
+          rules={{
+            required: 'Требуется пароль',
+            minLength: { value: 6, message: 'Пароль должен состоять минимум из 6 символов' }
+          }}
+        />
 
-          <CustomButton
-            text="Отправить"
-            onPress={handleSubmit(onSubmitPressed)}
-          />
-          <CustomButton
-            text="Отправить код еще раз"
-            onPress={onResendPress}
-            type="SECONDARY"
-          />
-          <CustomButton
-            text="Вернуться ко входу"
-            onPress={onSingInPress}
-            type="TERTIARY"
-          />
+        <CustomButton
+          text="Отправить"
+          onPress={handleSubmit(onSubmitPressed)}
+        />
+        <CustomButton
+          text="Отправить код еще раз"
+          onPress={onResendPress}
+          type="SECONDARY"
+        />
+        <CustomButton
+          text="Вернуться ко входу"
+          onPress={onSingInPress}
+          type="TERTIARY"
+        />
 
       </View>
     </ScrollView>
@@ -90,7 +90,7 @@ const NewPasswordScreen = () => {
 
 const styles = StyleSheet.create({
   root: {
-    alignItems:"center",
+    alignItems: "center",
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     padding: 20,
   },
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     maxHeight: 300,
   },
-  title:{
+  title: {
     fontSize: 24,
-    fontWeight:'bold',
-    color:'#051C60',
+    fontWeight: 'bold',
+    color: '#051C60',
     margin: 10,
   },
 })

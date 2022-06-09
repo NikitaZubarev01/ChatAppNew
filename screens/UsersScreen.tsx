@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { 
-  Platform, 
-  StatusBar, 
-  StyleSheet, 
-  View, 
-  FlatList, 
-  Text, 
-  Pressable 
+import React, { useState, useEffect } from 'react';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  Pressable
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DataStore } from 'aws-amplify';
@@ -14,12 +14,12 @@ import { User } from '../src/models';
 
 import UserItem from '../components/UserItem';
 
-export default function UsersScreen () {
-  const [users,setUsers] = useState<User[]>([]);
+export default function UsersScreen() {
+  const [users, setUsers] = useState<User[]>([]);
 
-useEffect(() => {
-  DataStore.query(User).then(setUsers);
-}, [])
+  useEffect(() => {
+    DataStore.query(User).then(setUsers);
+  }, [])
 
   // useEffect(() => {
   //   // query users
@@ -32,9 +32,9 @@ useEffect(() => {
 
   return (
     <View style={styles.page}>
-      <FlatList 
+      <FlatList
         data={users}
-        renderItem={({ item }) => <UserItem user={item}/> }
+        renderItem={({ item }) => <UserItem user={item} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -42,10 +42,10 @@ useEffect(() => {
 }
 
 const styles = StyleSheet.create({
-  maincontainer:{
+  maincontainer: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  page:{
+  page: {
     backgroundColor: 'white',
     flex: 1,
   },
