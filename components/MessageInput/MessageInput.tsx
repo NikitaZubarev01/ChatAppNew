@@ -56,11 +56,13 @@ const MessageInput = ({ chatRoom }) => {
 	const sendMessage = async () => {
 		//send message
 		const user = await Auth.currentAuthenticatedUser();
-		const newMessage = await DataStore.save(new Message({
-			content: message,
-			userID: user.attributes.sub,
-			chatroomID: chatRoom.id,
-		}))
+		const newMessage = await DataStore.save(
+			new Message({
+				content: message,
+				userID: user.attributes.sub,
+				chatroomID: chatRoom.id,
+				status: "SENT",
+			}))
 
 		updateLastMessage(newMessage);
 
@@ -216,6 +218,7 @@ const MessageInput = ({ chatRoom }) => {
 				audio: key,
 				userID: user.attributes.sub,
 				chatroomID: chatRoom.id,
+				status: "SENT"
 			})
 		);
 

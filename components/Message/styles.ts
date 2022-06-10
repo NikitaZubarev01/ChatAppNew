@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
 		margin: 10,
 		borderRadius: 10,
 		Maxwidth: '75%',
+		flexDirection: 'row',
+		alignItems: 'flex-end'
 	},
 	leftcontainer: {
 		backgroundColor: '#3777f0',

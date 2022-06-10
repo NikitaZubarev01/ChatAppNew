@@ -61,3 +61,4 @@ export default function ChatRoomItem({ chatRoom }) {
 		</Pressable>
 	);
 }
+
