@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, useWindowDimensions, Pressable } from 'react-native';
+import {
+	View,
+	Text,
+	ActivityIndicator,
+	useWindowDimensions,
+	Pressable
+} from 'react-native';
 import { DataStore, Auth, Storage } from "aws-amplify";
 import { User } from "../../src/models";
 import { S3Image } from "aws-amplify-react-native";
@@ -28,32 +34,30 @@ const Message = (props) => {
 	}, []);
 
 	useEffect(() => {
+		setMessage(propMessage);
+	}, [propMessage]);
+
+	useEffect(() => {
 		if (message?.replyToMessageID) {
 			DataStore.query(MessageModel, message.replyToMessageID).then(setRepliedTo);
-
 		}
-	}, [message])
+	}, [message]);
 
 	useEffect(() => {
-		setMessage(propMessage);
-	}, [propMessage])
-
-	useEffect(() => {
-		const subscription = DataStore.observe(MessageModel, message.id).subscribe((msg) => {
-			if (msg.model === MessageModel && msg.opType === "UPDATE") {
-				setMessage((message) => ({ ...message, ...msg.element }));
+		const subscription = DataStore.observe(MessageModel, message.id).subscribe(
+			(msg) => {
+				if (msg.model === MessageModel && msg.opType === "UPDATE") {
+					setMessage((message) => ({ ...message, ...msg.element }));
+				}
 			}
-		});
+		);
 
 		return () => subscription.unsubscribe();
 	}, []);
 
 	useEffect(() => {
 		setAsRead();
-	}, [isMe, message])
-	useEffect(() => {
-		setAsRead();
-	}, [isMe, message])
+	}, [isMe, message]);
 
 	useEffect(() => {
 		if (message.audio) {
@@ -74,11 +78,12 @@ const Message = (props) => {
 
 	const setAsRead = async () => {
 		if (isMe === false && message.status !== "READ") {
-			await DataStore.save(MessageModel.copyOf(message, (updated) => {
-				updated.status = "READ";
-			}));
+			await DataStore.save(
+				MessageModel.copyOf(message, (updated) => {
+					updated.status = "READ";
+				}));
 		}
-	}
+	};
 
 	if (!user) {
 		return <ActivityIndicator />
@@ -93,18 +98,18 @@ const Message = (props) => {
 				{ width: soundURI ? "75%" : "auto" },
 			]}
 		>
-			{repliedTo && (<MessageReply message={MessageReply} />)}
-			{message.image && (
-				<View style={{ marginBottom: message.content ? 10 : 0 }}>
-					<S3Image
-						imgKey={message.image}
-						style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
-						resizeMode="contain"
-					/>
-				</View>
-
-			)}
+			{repliedTo && <MessageReply message={repliedTo} />}
 			<View style={styles.row}>
+				{message.image && (
+					<View style={{ marginBottom: message.content ? 10 : 0 }}>
+						<S3Image
+							imgKey={message.image}
+							style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
+							resizeMode="contain"
+						/>
+					</View>
+
+				)}
 				{soundURI && <AudioPlayer soundURI={soundURI} />}
 				{!!message.content && (
 					<Text style={{ color: isMe ? 'black' : 'white' }}>
