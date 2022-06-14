@@ -122,7 +122,7 @@ const Message = (props) => {
 						name={message.status === 'DELIVERED' ? "checkmark" : "checkmark-done"}
 						size={16}
 						color="#595959"
-						style={{ marginHorizontal: 5, }}
+						style={{ marginHorizontal: 5 }}
 					/>
 				)}
 			</View>

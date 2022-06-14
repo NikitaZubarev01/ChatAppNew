@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
 	row:{
 		flexDirection: 'row',
 		alignItems: 'flex-end'
-
-
 	},
 });
 

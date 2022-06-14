@@ -180,6 +180,34 @@ export const schema = {
                         "associatedWith": "chatRoom"
                     }
                 },
+                "Admin": {
+                    "name": "Admin",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "chatRoomAdminId"
+                    }
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "imageUri": {
+                    "name": "imageUri",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -198,6 +226,13 @@ export const schema = {
                 },
                 "chatRoomLastMessageId": {
                     "name": "chatRoomLastMessageId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "chatRoomAdminId": {
+                    "name": "chatRoomAdminId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -429,5 +464,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "ebce03edfb83c1f6eac07d678dc52b83"
+    "version": "9bd860787d2813dca9cd5257f192b69d"
 };

@@ -7,6 +7,15 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		Maxwidth: '75%',
 	},
+	row:{
+		flexDirection: 'row',
+		alignItems: 'flex-end',
+	},
+	messageReply:{
+		backgroundColor: 'gray',
+		padding: 5,
+		borderRadius: 5,
+	},
 	leftcontainer: {
 		backgroundColor: '#3777f0',
 		marginLeft: 10,
@@ -17,17 +26,6 @@ const styles = StyleSheet.create({
 		marginLeft: 'auto',
 		marginRight: 10,
 		alignItems: 'flex-end',
-	},
-	messageReply:{
-		backgroundColor: 'gray',
-		padding: 5,
-		borderRadius: 5,
-	},
-	row:{
-		flexDirection: 'row',
-		alignItems: 'flex-end'
-
-
 	},
 });
 
