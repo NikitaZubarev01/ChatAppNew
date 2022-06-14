@@ -4,15 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { Feather } from "@expo/vector-icons";
 
-export default function UserItem({ user, onPress, isSelected }) {
+export default function UserItem({ user, onPress, isSelected, onLongPress, isAdmin = false }) {
 
 	return (
-		<Pressable onPress={onPress} style={styles.container}>
+		<Pressable onPress={onPress} onLongPress={onLongPress} style={styles.container}>
 			<Image source={{ uri: user.imageUri }} style={styles.image} />
 			<View style={styles.rightContainer}>
-				<View style={styles.row}>
-					<Text style={styles.name}>{user.name}</Text>
-				</View>
+				<Text style={styles.name}>{user.name}</Text>
+				{isAdmin && <Text>admin</Text>}
 			</View>
 			{isSelected !== undefined && (
 				<Feather

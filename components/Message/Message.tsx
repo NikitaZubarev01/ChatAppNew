@@ -99,18 +99,23 @@ const Message = (props) => {
 			]}
 		>
 			{repliedTo && <MessageReply message={repliedTo} />}
-			<View style={styles.row}>
-				{message.image && (
-					<View style={{ marginBottom: message.content ? 10 : 0 }}>
-						<S3Image
-							imgKey={message.image}
-							style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
-							resizeMode="contain"
-						/>
-					</View>
 
-				)}
-				{soundURI && <AudioPlayer soundURI={soundURI} />}
+
+			{message.image && (
+				<View style={{ marginBottom: message.content ? 10 : 0 }}>
+					<S3Image
+						imgKey={message.image}
+						style={{ width: width * 0.65, aspectRatio: 4 / 3 }}
+						resizeMode="contain"
+					/>
+				</View>
+			)}
+			<View style={styles.row}>
+				{soundURI &&
+					<View style={{ flex: 1 }}>
+						<AudioPlayer soundURI={soundURI} />
+					</View>
+				}
 				{!!message.content && (
 					<Text style={{ color: isMe ? 'black' : 'white' }}>
 						{message.content}
@@ -126,7 +131,7 @@ const Message = (props) => {
 					/>
 				)}
 			</View>
-		</Pressable>
+		</Pressable >
 	)
 }
 

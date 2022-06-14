@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DataStore, Auth } from 'aws-amplify';
-import { ChatRoomUser, User, Message } from '../../src/models';
+import { ChatRoomUser, User, Message, } from '../../src/models';
 import styles from './styles';
 import moment from "moment";
+import { ChatRoom } from '../../src/models';
 
 export default function ChatRoomItem({ chatRoom }) {
 	//const [users, setUsers] = useState<User[]>([]); //all users in this chat room
 	const [user, setUser] = useState<User | null>(null); //display user
 	const [lastMessage, setLastMessage] = useState<Message | undefined>();
+	const [isLoading, setIsLoading] = useState(true);
 
 	const navigation = useNavigation();
 	console.log(chatRoom);
@@ -23,23 +25,25 @@ export default function ChatRoomItem({ chatRoom }) {
 			// setUsers(fetchedUsers);
 
 			const authUser = await Auth.currentAuthenticatedUser();
-			setUser(fetchedUsers.find(user => user.id !== authUser.attributes.sub) || null);
+			setUser(
+				fetchedUsers.find(user => user.id !== authUser.attributes.sub) || null);
+			setIsLoading(false);
 		};
 		fetchUsers();
 	}, []);
 
 	useEffect(() => {
 		if (!chatRoom.chatRoomLastMessageId) {
-			return
+			return;
 		}
 		DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(setLastMessage);
-	}, [])
+	}, []);
 
 	const onPress = () => {
 		navigation.navigate('ChatRoom', { id: chatRoom.id });
 	}
 
-	if (!user) {
+	if (isLoading) {
 		return <ActivityIndicator />
 	}
 
@@ -56,7 +60,9 @@ export default function ChatRoomItem({ chatRoom }) {
 					<Text style={styles.name}>{chatRoom.name || user.name}</Text>
 					<Text style={styles.text}>{time}</Text>
 				</View>
-				<Text numberOfLines={1} style={styles.text}>{lastMessage?.content}</Text>
+				{!!lastMessage?.audio && (<Text numberOfLines={1} style={styles.text}>Голосовое сообщение</Text>)}
+				{!!lastMessage?.content && (<Text numberOfLines={1} style={styles.text}>{lastMessage?.content}</Text>)}
+				{!!lastMessage?.image && (<Text numberOfLines={1} style={styles.text}>Фотография</Text>)}
 			</View>
 		</Pressable>
 	);

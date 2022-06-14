@@ -88,7 +88,6 @@ const MessageInput = ({ chatRoom, messageReplyTo, removeMessageReplyTo }) => {
 		} else if (message) {
 			sendMessage();
 		} else if (soundURI) {
-			sendMessage();
 			sendAudio();
 		} else {
 			onPlusClicked();

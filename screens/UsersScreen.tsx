@@ -21,7 +21,6 @@ export default function UsersScreen() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [isNewGroup, setisNewGroup] = useState(false);
-  const [isMe, setIsMe] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     DataStore.query(User).then(setUsers);
@@ -35,6 +34,7 @@ export default function UsersScreen() {
   //   };
   //   fetchUsers();
   // }, [] )
+
 
   const addUserToChatRoom = async (user, chatRoom) => {
     DataStore.save(
@@ -54,7 +54,7 @@ export default function UsersScreen() {
     // create a chat room 
     const newChatRoomData = {
       newMessage: 0,
-      admin: dbUser,
+      Admin: dbUser,
     };
     if (users.length > 1) {
       newChatRoomData.name = "New Group";
