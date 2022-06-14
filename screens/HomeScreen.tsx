@@ -27,7 +27,8 @@ export default function TabOneScreen() {
     fetchChatRooms();
   }, []);
 
-  const logOut = () => {
+  const logOut = async () => {
+    //await DataStore.clear()
     Auth.signOut();
   }
 

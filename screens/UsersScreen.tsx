@@ -23,7 +23,12 @@ export default function UsersScreen() {
   const [isNewGroup, setisNewGroup] = useState(false);
 
   useEffect(() => {
-    DataStore.query(User).then(setUsers);
+    const checkIfMe = async () => {
+      const authUser = await Auth.currentAuthenticatedUser();
+      DataStore.query(User, user => user.id("ne", authUser.attributes.sub)).then(setUsers);
+    }
+    checkIfMe();
+    //DataStore.query(User, user => user.id("ne", authUser.attributes.sub)).then(setUsers);
   }, [])
 
   // useEffect(() => {
@@ -37,10 +42,8 @@ export default function UsersScreen() {
 
 
   const addUserToChatRoom = async (user, chatRoom) => {
-    DataStore.save(
-      new ChatRoomUser({ user, chatRoom })
-    )
-  }
+    DataStore.save(new ChatRoomUser({ user, chatRoom }));
+  };
 
   const createChatRoom = async (users) => {
     // TODO if there is already a chat room between these 2 users 
